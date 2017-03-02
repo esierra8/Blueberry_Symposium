@@ -1,0 +1,13 @@
+To change the styles used by the materialize library
+go into the source/sass/ directory.
+
+Here you can change the SASS files.
+
+Run the compile.bat file to compile changes to the site.
+
+Remember to hard refresh a page after a change
+
+-------------------------------------------------------------
+
+Chanigng primary color
+	This is in the _varialbes.sass file, line 36

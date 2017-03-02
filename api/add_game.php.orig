@@ -1,0 +1,124 @@
+<?php
+
+	// Include the database access variables
+	$path = $_SERVER['DOCUMENT_ROOT'].'/php/'; // The path to the included php files
+	include $path.'__db.php';
+
+	// Connect to the database
+	$conn = new mysqli($servername, $username, $password, $dbname);
+	if ($conn->connect_error)
+<<<<<<< working copy
+		die("Connection failed: " . $conn->connect_error);
+
+	$target_dir = "images/";
+	$target_file = $target_dir.basename($_FILES["pic"]["name"]);
+	$uploadOk = 1;
+	$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+	// Check if image file is a actual image or fake image
+	if(isset($_POST["submit"])) {
+	    $check = getimagesize($_FILES["pic"]["tmp_name"]);
+	    echo 'Check: '. $check;
+	    if($check !== false) {
+	        echo "File is an image - " . $check["mime"] . ".";
+	        $uploadOk = 1;
+	    } else {
+	        echo "File is not an image.";
+	        $uploadOk = 0;
+	    }
+	}
+	// Check if file already exists
+	if (file_exists($target_file)) {
+	    echo "Sorry, file already exists.";
+	    $uploadOk = 0;
+	}
+	// Check file size
+	// if ($_FILES["pic"]["size"] > 500000) {
+	//     echo "Sorry, your file is too large.";
+	//     $uploadOk = 0;
+	// }
+	// Allow certain file formats
+	if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+	&& $imageFileType != "gif" ) {
+	    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+	    $uploadOk = 0;
+	}
+	// Check if $uploadOk is set to 0 by an error
+	if ($uploadOk == 0) {
+	    echo "Sorry, your file was not uploaded.";
+	// if everything is ok, try to upload file
+	} else {
+		$sql = "INSERT INTO games (name, description, plays, ext)
+	        VALUES ('{$_POST["name"]}', '{$_POST["desc"]}', '0', '{$imageFileType}')";
+=======
+			die("Connection failed: " . $conn->connect_error);
+	
+	// Provide *minimal* error checking for the uploaded image
+	$target_dir = $_SERVER["DOCUMENT_ROOT"]."/images/";
+	$imageFileType = pathinfo($target_dir.basename($_FILES["pic"]["name"]),PATHINFO_EXTENSION);
+	if(getimagesize($_FILES["pic"]["tmp_name"]) === false)
+			die("Your image does not seem to be valid");
+		
+	// Provide *minimal* error checking for the uploaded file
+	$file_target_dir = $_SERVER["DOCUMENT_ROOT"]."/downloads/";
+	$fileType = pathinfo($file_target_dir.basename($_FILES["zip"]["name"]),PATHINFO_EXTENSION);
+	if($fileType != "zip")
+			die("Your program does not seem to be valid");
+		
+	$date = date("F j, Y");
+	$sql = "INSERT INTO games (name, description, author, version, date, plays, downloads, ext)
+	        VALUES ('{$_POST["name"]}', '{$_POST["desc"]}', '{$_POST["author"]}', '{$_POST["version"]}', 
+					        '{$date}', '0', '0', '{$imageFileType}')";
+>>>>>>> destination
+	if ($conn->query($sql) != TRUE) 
+			echo "Error: " . $sql . "<br>" . $conn->error;
+		
+	$sql = "SELECT * FROM games
+	        WHERE name = '{$_POST["name"]}' AND description = '{$_POST["desc"]}' ";
+	$result = $conn->query($sql);
+	$row = $result->fetch_assoc();
+	    if (move_uploaded_file($_FILES["pic"]["tmp_name"], $target_file)) {
+	        echo "The file ". basename( $_FILES["pic"]["name"]). " has been uploaded.";
+	    } else {
+	        echo "Sorry, there was an error uploading your file: ".$_FILES["pic"]["tmp_name"].'.';
+	    }
+	}
+
+
+	// // Include the database access variables
+	// $path = $_SERVER['DOCUMENT_ROOT'].'/php/'; // The path to the included php files
+	// include $path.'__db.php';
+
+	// // Connect to the database
+	// $conn = new mysqli($servername, $username, $password, $dbname);
+	// if ($conn->connect_error)
+	// 		die("Connection failed: " . $conn->connect_error);
+	
+<<<<<<< working copy
+	// // Provide *minimal* error checking for the uploaded image
+	// $target_dir = $_SERVER["DOCUMENT_ROOT"]."/images/";
+	// $imageFileType = pathinfo($target_dir.basename($_FILES["pic"]["name"]),PATHINFO_EXTENSION);
+	// if(getimagesize($_FILES["pic"]["tmp_name"]) === false)
+	// 		die("Your image does not seem to be valid");
+		
+	// $sql = "INSERT INTO games (name, description, plays, ext)
+	//         VALUES ('{$_POST["name"]}', '{$_POST["desc"]}', '0', '{$imageFileType}')";
+	// if ($conn->query($sql) != TRUE) 
+	// 		echo "Error: " . $sql . "<br>" . $conn->error;
+		
+	// $sql = "SELECT * FROM games
+	//         WHERE name = '{$_POST["name"]}' AND description = '{$_POST["desc"]}' ";
+	// $result = $conn->query($sql);
+	// $row = $result->fetch_assoc();
+	// $target_file = $target_dir.$row["id"].'.'.$imageFileType;
+	// $id = $row["id"];
+	// move_uploaded_file($_FILES["pic"]["tmp_name"], $target_file);
+	
+	// header('Location: /index.php');
+
+?>
+=======
+	$target_file = $file_target_dir.$row["id"].'.'.$fileType;
+	move_uploaded_file($_FILES["zip"]["tmp_name"], $target_file);
+	
+	header('Location: /index.php');
+?>>>>>>>> destination

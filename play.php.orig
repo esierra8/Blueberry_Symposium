@@ -1,0 +1,216 @@
+<?php
+	$path = $_SERVER['DOCUMENT_ROOT'].'/php/'; // The path to the included php files
+	$title = "SIPS"; // The page/navigation bar title
+	$index1 = "active"; // Set the first index in the navigation to 'active'
+	
+	// Include the database access variables
+	include $path.'__db.php';
+
+	// Connect to the database
+	$conn = new mysqli($servername, $username, $password, $dbname);
+	if ($conn->connect_error)
+			die("Connection failed: " . $conn->connect_error);
+	
+	
+	// Read all of the recipients from the database
+	if(isset($_GET["game"])) {
+		$sql = "SELECT * FROM games
+						WHERE id = '{$_GET["game"]}' ";
+		$result = $conn->query($sql);
+		$conn->close(); 
+		$row = $result->fetch_assoc();
+	} else {
+		die("No Game Selected");
+	}
+	
+	// Kill the page if nobody is found, it should not happen in our demos
+	if ($result->num_rows == 0)
+		die("Could not find the desired game");
+?>
+
+<html>
+	<head>
+		<?php include $path.'__head.php'; ?> <!-- Include the global document header -->
+
+		<!-- Used to make the "more reviews" button work -->
+		<script>
+			function expand_reviews(){
+				var hiddenReviews = document.getElementsByClassName("hidden");
+				for(var i = 0; i < hiddenReviews.length; i++){
+				 	hiddenReviews.item(i).className = "";
+				}
+				if(hiddenReviews.length == 0 ) {
+					document.getElementById("more_button").className = "hide";
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<header>
+			<?php include $path.'__js.php'; ?> <!-- Load the Javascript Libraries -->
+		</header>
+
+		<nav>
+			<?php include $path.'__navbar.php'; ?> <!-- Load the navigation bar -->
+		</nav>
+		
+<<<<<<< working copy
+		<!-- The Game Cards -->
+			<div class="row valign">
+=======
+		<!--Review card -->
+		<div class="row valign hide-on-large-only">		
+			<div class="col s12 m10 offset-m1">	
+>>>>>>> destination
+
+				<!--Game card-->
+				<div class="card">
+					<div class="card-image">
+						<?php echo "<img src='/images/{$row['id']}.{$row['ext']}' alt=''>"; ?> <!-- Load the game's picture -->
+					</div>
+					<div class="card-content">
+						<span class="card-title activator grey-text text-darken-4"><?php echo $row['name']; ?></span>
+						<p><?php echo $row['description']; ?></p>
+					</div>
+					<div class="card-action">
+						<a href="#"><i class="medium material-icons">videogame_asset</i></a>
+					</div>
+				</div>
+<<<<<<< working copy
+			</div>
+
+
+			<!--Review card -->
+			<dic class="row valign hide-on-large-only">		
+				<div class="col s12 m10 offset-m1">	
+
+					<!--Game card-->
+	  				<div class="card">
+	    				<div class="card-image">
+					        <img class="activator" src="images/1.jpg">
+					    </div>
+	    				<div class="card-content">
+					        <span class="card-title activator grey-text text-darken-4">Lunar Turrets<i class="material-icons right">more_vert</i></span>
+					        <p>I am a very simple card. I am good at containing small bits of information.</p>
+					    </div>
+	    				<div class="card-reveal">
+	      					<span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>
+	      					<p>Here is some more information about this product that is only revealed once clicked on.</p>
+	    				</div>
+	    				<div class="card-action">
+				          	<a href="#"><i class=" medium material-icons">videogame_asset</i></a>
+				        </div>
+	 				</div>
+
+	 				<!--Analytics card-->
+				    <div class="card ">
+				     	<div class="card-stacked">
+				        	<div class="card-content">
+				        		<span class="card-title activator grey-text text-darken-4 center-">ANALYTICS<i class="material-icons right">more_vert</i></span>
+				          		<p>I am a very simple card. I am good at containing small bits of information.</p>
+				        	</div>
+				        	<div class="card-action">
+				          		<a href="#">This is a link</a>
+				        	</div>
+				      	</div>
+				    </div>
+
+				    <!--Reviews card-->
+				    <div class="card valign-wrapper">
+				     	<div class="card-stacked">
+				        	<div class="card-content">
+				        		
+				        		
+				        		<!--Review card #0-->
+				        		<div class="card ">
+				     				<div class="card-stacked">
+				        				<div class="card-content">
+				        					<span class="card-title activator grey-text text-darken-4 center-">Esteban Sierra</span>
+				          					<p>I am a very simple review card#0. I am good at containing small bits of reviews for your projects.</p>
+				        				</div>
+				        				<div class="card-action">
+				        					<i class='material-icons'>favorite</i> 0
+				          					<span class="right">
+				          						<a style="margin-top: -10px" class="btn-floating btn-medium waves-effect waves-light blue-grey"><i class="material-icons">thumb_up</i></a>
+				          						<a style="margin-top: -10px" class="btn-floating btn-medium waves-effect waves-light blue-grey"><i class="material-icons">thumb_down</i></a>
+				          					</span>
+				        				</div>
+				      				</div>
+				    			</div>
+
+				        		<!--Review card #1-->
+				        		<div class="card ">
+				     				<div class="card-stacked">
+				        				<div class="card-content">
+				        					<span class="card-title activator grey-text text-darken-4 center-">Ruvim Nochvay</span>
+				          					<p>I am a very simple review card#1. I am good at containing small bits of reviews for your projects.</p>
+				        				</div>
+				        				<div class="card-action">
+				        					<i class='material-icons'>favorite</i>0
+				          					<span class="right">
+				          						<a style="margin-top: -10px" class="btn-floating btn-medium waves-effect waves-light blue-grey"><i class="material-icons">thumb_up</i></a>
+				          						<a style="margin-top: -10px" class="btn-floating btn-medium waves-effect waves-light blue-grey"><i class="material-icons">thumb_down</i></a>
+				          					</span>
+				        				</div>
+				      				</div>
+				    			</div>
+
+				        		<!--Review card #2-->
+				        		<span class="hide hidden">
+					        		<div class="card">
+					     				<div class="card-stacked">
+					        				<div class="card-content">
+					        					<span class="card-title activator grey-text text-darken-4 center-">Nate Hayes</span>
+					          					<p>I am a very simple review card#3. I am good at containing small bits of reviews for your projects.</p>
+					        				</div>
+					        				<div class="card-action">
+					        					<i class='material-icons'>favorite</i>0
+					          					<span class="right">
+					          						<a style="margin-top: -10px" class="btn-floating btn-medium waves-effect waves-light blue-grey"><i class="material-icons">thumb_up</i></a>
+					          						<a style="margin-top: -10px" class="btn-floating btn-medium waves-effect waves-light blue-grey"><i class="material-icons">thumb_down</i></a>
+					          					</span>
+					        				</div>
+					      				</div>
+					    			</div>
+					    		</span>
+=======
+>>>>>>> destination
+
+	 			<!--Analytics card-->
+				
+
+				<!--Reviews card-->
+				<ul class="collection">
+
+					<!-- Each Review -->
+					<li class="collection-item">
+						<span style="font-size: 25px">Esteban Sierra</span>
+						<p>I am a very simple review card#0. I am good at containing small bits of reviews for your projects.</p>
+						<span class="blue-text"><i class='material-icons'>sentiment_very_satisfied</i><span style="font-size: 30">0</span></span>
+						<span class="right">
+							<a style="margin-top: -10px" class="btn-floating btn-medium waves-effect waves-light blue"><i class="material-icons">thumb_up</i></a>
+							<a style="margin-top: -10px" class="btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">thumb_down</i></a>
+						</span>
+					</li>
+					
+					<!-- Each Review -->
+					<li class="collection-item">
+						<span style="font-size: 25px">Nate Hayes</span>
+						<p>This game is shit!</p>
+						<span class="red-text"><i class='material-icons'>sentiment_very_dissatisfied</i><span style="font-size: 30">-5</span></span>
+						<span class="right">
+							<a style="margin-top: -10px" class="btn-floating btn-medium waves-effect waves-light blue">
+								<i class="material-icons">thumb_up</i>
+							</a>
+							<a style="margin-top: -10px" class="btn-floating btn-medium waves-effect waves-light red">
+								<i class="material-icons">thumb_down</i>
+							</a>
+						</span>
+					</li>
+							
+				</ul>
+
+			</div>
+		</div>
+	</body>
+</html>
